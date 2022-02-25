@@ -1,3 +1,5 @@
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\AutoItX3.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\AutoItX3_x64.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\TwitchBotForm.exe.config
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\TwitchBotForm.exe
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\System.Data.Common.dll
@@ -12,6 +14,7 @@ C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotF
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\System.Security.SecureString.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\System.Threading.Overlapped.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\System.Xml.XPath.XDocument.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\AutoItX3.Assembly.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Henooh.DeviceEmulator.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Newtonsoft.Json.dll
@@ -29,6 +32,7 @@ C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotF
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\TwitchLib.Client.Models.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\TwitchLib.Communication.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\TwitchLib.PubSub.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\AutoItX3.Assembly.xml
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Henooh.DeviceEmulator.pdb
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Henooh.DeviceEmulator.xml
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\Microsoft.Extensions.Logging.Abstractions.xml
@@ -36,6 +40,7 @@ C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotF
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\fr\Henooh.DeviceEmulator.resources.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\x64\TestRelease\kr\Henooh.DeviceEmulator.resources.dll
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\x64\TestRelease\TwitchBotForm.exe.config
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\x64\TestRelease\TwitchBotForm.csproj.ResolveComReference.cache
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\x64\TestRelease\TwitchBotForm.Form1.resources
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\x64\TestRelease\TwitchBotForm.Properties.Resources.resources
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\x64\TestRelease\TwitchBotForm.TwitchSecrets.resources

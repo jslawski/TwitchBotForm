@@ -21,6 +21,7 @@ using System.IO;
 using TwitchLib.Communication.Models;
 using TwitchLib.Communication.Clients;
 using System.Threading;
+using AutoIt;
 
 namespace CabbageChaosBot
 {
@@ -32,34 +33,40 @@ namespace CabbageChaosBot
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
-        const string OBSProcessName = "obs64";
+        const string OBSProcesssName = "obs64";
         const string SoundboardProcessName = "SoundBoard";
         const string UnityBotProcessName = "TwitchBot";
-        const string VoicemodProcessName = "VoicemodDesktop";
+        const string VoicemodProcesssName = "VoicemodDesktop";
+
+        //const string OBSWindowTitle = "OBS 27.0.1 (64-bit, windows) - Profile: Main Stream Profile - Scenes: Untitled";
+        const string OBSWindowTitle = "OBS";
+        const string OBSControl = "[CLASS:Qt5152QWindowIcon; INSTANCE:1]";
+
+        const string VoicemodWindowTitle = "Program Manager";
+        const string VoicemodControl = "[CLASS:SysListView32; INSTANCE:1]";
 
         //VOICEMOD HOTKEYS
-        const string ToggleVoiceModHotkey = "^%P";
-        const string ToggleHearVoiceHotkey = "^%O";
-        const string CleanVoiceHotkey = "^%Q";
-        const string SpeechJammerHotkey = "^%W";
-        const string OldieHotkey = "^%E";
-        const string BabyHotkey = "^%R";
-        const string HamsterHotkey = "^%T";
-        const string MutationHotkey = "^%Y";
-        const string DeepHotkey = "^%U";
-        const string FemaleHotkey = "^%I";
-        const string RobotHotkey = "^%A";
+        const string ToggleHearVoiceHotkey = "=";
+        const string CleanVoiceHotkey = "-";
+        const string SpeechJammerHotkey = "=0";
+        const string OldieHotkey = "9";
+        const string BabyHotkey = "8";
+        const string HamsterHotkey = "7";
+        const string MutationHotkey = "6";
+        const string DeepHotkey = "5";
+        const string FemaleHotkey = "4";
+        const string RobotHotkey = "3";
 
         //OBS HOTKEYS
-        const string ShowTBCHotkey = "^1";
-        const string HideTBCHotkey = "^2";
-        const string MuteOutputsHotkey = "^4";
-        const string UnmuteOutputsHotkey = "^5";
-        const string StartFreezeFrameHotkey = "^9";
-        const string EndFreezeFrameHotkey = "^0";
-        const string ToggleSitcomHotkey = "^6";
-        const string StartSitcomFreezeFrameHotkey = "^7";
-        const string EndSitcomFreezeFrameHotkey = "^8";
+        const string ShowTBCHotkey = "{NUMPAD1}";
+        const string HideTBCHotkey = "{NUMPAD2}";
+        const string MuteOutputsHotkey = "{NUMPAD3}";
+        const string UnmuteOutputsHotkey = "{NUMPAD4}";
+        const string StartFreezeFrameHotkey = "{NUMPAD5}";
+        const string EndFreezeFrameHotkey = "{NUMPAD6}";
+        const string ToggleSitcomHotkey = "{NUMPAD7}";
+        const string StartSitcomFreezeFrameHotkey = "{NUMPAD8}";
+        const string EndSitcomFreezeFrameHotkey = "{NUMPAD9}";
         const string ShowShotsHotkey = "^%P";
         const string HideShotsHotkey = "^%O";
         const string SwitchToCloseUpSceneHotkey = "^%C";
@@ -94,6 +101,7 @@ namespace CabbageChaosBot
         const string AccentActivateRewardID = "765ad5ad-cea1-466c-82a8-d6073fe6369a";
         const string ASMRRewardID = "4752928e-f992-4e37-b7b2-2ee0171b30c9";
         const string SpeechJammerRewardID = "ced98445-3487-481a-ae6a-dd597cfa2930";
+        const string NewscasterRewardID = "a3cc42c6-55f8-4d12-b52e-d3826df913d0";
         const string ChannelName = "coleslawski";
 
         KeyboardController keyboardController;
@@ -130,6 +138,8 @@ namespace CabbageChaosBot
 
         internal void Connect()
         {
+            Console.WriteLine("CONNECTING!");
+
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             ClientOptions clientOptions = new ClientOptions
@@ -164,14 +174,13 @@ namespace CabbageChaosBot
             pendingMutes = new Dictionary<string, int>();
             goodBotResponses = new List<string>();
             badBotResponses = new List<string>();
-
             SetupWheelDict();
             SetupMutesDict();
             SetupResponses();
-            ReturnToNormalVoice();
-
+            //ReturnToNormalVoice();
+            
             cancellationToken = new CancellationTokenSource();
-
+            
             Task.Delay(TimeSpan.FromMinutes(5.0)).ContinueWith(t => RejoinHeartbeat());
         }
 
@@ -248,6 +257,8 @@ namespace CabbageChaosBot
 
         private void Client_ChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
         {
+            Console.WriteLine("Command Received! " + e.Command.CommandText.ToLower());
+
             if (e.Command.CommandText.ToLower().Contains("plslaugh") && e.Command.ChatMessage.Username == "cabbagegatekeeper")
             {
                 this.InitiateSitcomCredits();
@@ -258,10 +269,10 @@ namespace CabbageChaosBot
                 this.SendDiscord();
             }
 
-            if (e.Command.CommandText.ToLower().Contains("game"))
+            /*if (e.Command.CommandText.ToLower().Contains("game"))
             {
-                this.SendOrbitunes();
-            }
+                //this.SendOrbitunes();
+            }*/
 
             if (e.Command.CommandText.ToLower().Contains("wheel"))
             {
@@ -417,22 +428,29 @@ namespace CabbageChaosBot
                 case SpeechJammerRewardID:
                     ActivateSpeechJammer();
                     break;
+                case NewscasterRewardID:
+                    ActivateNewscast();
+                    break;
                 default:
                     Console.WriteLine("Unknown Reward ID: " + e.RewardId + " " + e.RewardTitle);
                     break;
             }
         }
 
+        private void ActivateNewscast()
+        {
+            //TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> {  })
+        }
+
         private void ActivateSpeechJammer()
         {
             Console.WriteLine("Activate Speech Jammer");
             
-
             if (speechJammerMins <= 0)
             {
                 speechJammerMins = 1;
-                TriggerNewVoicemodHotkey(ToggleHearVoiceHotkey);
-                TriggerNewVoicemodHotkey(SpeechJammerHotkey);
+                TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { SpeechJammerHotkey });
+                TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { SpeechJammerHotkey });
                 Task.Delay(TimeSpan.FromMinutes(1.0)).ContinueWith(t => DeactivateSpeechJammer());
             }
             else
@@ -446,8 +464,8 @@ namespace CabbageChaosBot
             speechJammerMins--;
             if (speechJammerMins <= 0)
             {
-                TriggerNewVoicemodHotkey(ToggleHearVoiceHotkey);
-                TriggerNewVoicemodHotkey(CleanVoiceHotkey);
+                TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { ToggleHearVoiceHotkey, CleanVoiceHotkey });
+                TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { SpeechJammerHotkey });
             }
             else
             {
@@ -490,25 +508,26 @@ namespace CabbageChaosBot
             switch (voice)
             {
                 case "baby":
-                    TriggerNewVoicemodHotkey(BabyHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { BabyHotkey });
                     break;
                 case "female":
-                    TriggerNewVoicemodHotkey(FemaleHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { FemaleHotkey });
                     break;
+                case "male":
                 case "deep":
-                    TriggerNewVoicemodHotkey(DeepHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { DeepHotkey });
                     break;
                 case "mutant":
-                    TriggerNewVoicemodHotkey(MutationHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { MutationHotkey });
                     break;
                 case "oldie":
-                    TriggerNewVoicemodHotkey(OldieHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { OldieHotkey });
                     break;
                 case "robot":
-                    TriggerNewVoicemodHotkey(RobotHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { RobotHotkey });
                     break;
                 case "hamster":
-                    TriggerNewVoicemodHotkey(HamsterHotkey);
+                    TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { HamsterHotkey });
                     break;
                 default:
                     try
@@ -543,7 +562,7 @@ namespace CabbageChaosBot
 
         private void ReturnToNormalVoice()
         {
-            TriggerNewVoicemodHotkey(CleanVoiceHotkey);
+            TriggerHotkeys(VoicemodWindowTitle, VoicemodControl, new List<string> { CleanVoiceHotkey });
             Console.WriteLine("Voice returned to normal");
             currentVoice = "normal";
         }
@@ -567,12 +586,6 @@ namespace CabbageChaosBot
 
             //TriggerOBSHotkey(ShowShotsHotkey);
             //Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith(t => DisableShots());
-        }
-
-        private void DisableShots()
-        {
-            Console.WriteLine("Shots re-disabled");
-            TriggerOBSHotkey(HideShotsHotkey);
         }
 
         private string GetWheelKey(string wheelValue)
@@ -831,45 +844,47 @@ namespace CabbageChaosBot
             Disconnect();
         }
 
-        private void TriggerNewVoicemodHotkey(string hotkey)
+        private void TriggerHotkeys(string windowTitle, string windowControl, List<string> hotkeys)
         {
-            Process voicemodProcess = Process.GetProcessesByName(VoicemodProcessName).FirstOrDefault();
-
-            if (voicemodProcess != null)
+            for (int i = 0; i < hotkeys.Count; i++)
             {
-                IntPtr h = voicemodProcess.MainWindowHandle;
-                SetForegroundWindow(h);
-                SendKeys.SendWait(hotkey);
-                SetForegroundWindow(originalActiveWindow);
+                if (windowTitle == VoicemodWindowTitle)
+                {
+                    Console.WriteLine("Sending Hotkey: " + hotkeys[i]);
+                    AutoItX.Send(hotkeys[i]);
+                }
+                else
+                {
+                    int result = AutoItX.ControlSend(windowTitle, "", windowControl, hotkeys[i]);
+                    Console.WriteLine(windowTitle + " " + hotkeys[i] + " Result: " + result);
+                }
+
+
+
+                //AutoItX.ControlFocus("Voicemod", "", "[ID:2107009920]");
+                //int result = AutoItX.ControlSend("Voicemod", "", "[ID:2107009920]", hotkeys[i]);
+
+                //UNCOMMENT THESE TWO LINES TO MAKE THINGS WORK
+
+                //SendKeys.SendWait(hotkeys[i]);
+                //SendKeys.Flush();
+
+
             }
-        }
 
-        private void TriggerOBSHotkey(string hotkey)
-        {
-            Process obsProcess = Process.GetProcessesByName(OBSProcessName).FirstOrDefault();
+            /*Console.WriteLine("Trigger Hotkey: " + hotkeys[0]);
 
-            Console.WriteLine(obsProcess.ProcessName);
+            Process targetProcess = Process.GetProcessesByName(processName).FirstOrDefault();
 
-            if (obsProcess != null)
+            if (targetProcess != null)
             {
-                IntPtr h = obsProcess.MainWindowHandle;
-                SetForegroundWindow(h);
-                SendKeys.SendWait(hotkey);
-                SetForegroundWindow(originalActiveWindow);
-            }
-        }
+                IntPtr h = targetProcess.MainWindowHandle;
+                //SetForegroundWindow(h);
 
-        private void TriggerVoicemodHotkey(string hotkey)
-        {
-            Process soundboardProcess = Process.GetProcessesByName(SoundboardProcessName).FirstOrDefault();
-
-            if (soundboardProcess != null)
-            {
-                IntPtr h = soundboardProcess.MainWindowHandle;
-                SetForegroundWindow(h);
-                SendKeys.SendWait(hotkey);
-                SetForegroundWindow(originalActiveWindow);
-            }
+                
+                
+                //SetForegroundWindow(originalActiveWindow);
+            }*/
         }
 
         private void ActivateTBC(bool force = false)
@@ -881,32 +896,20 @@ namespace CabbageChaosBot
 
             originalActiveWindow = GetForegroundWindow();
 
-            TriggerOBSHotkey(ShowTBCHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { ShowTBCHotkey });
 
-            Task.Delay(TimeSpan.FromSeconds(11)).ContinueWith(t => DeactivateTBC());
             Task.Delay(TimeSpan.FromSeconds(3.6)).ContinueWith(t => FreezeFrame());
+            Task.Delay(TimeSpan.FromSeconds(11)).ContinueWith(t => DeactivateTBC());
         }
 
         private void FreezeFrame()
         {
-            TriggerOBSHotkey(StartFreezeFrameHotkey);
-            MuteOutputs();
-        }
-
-        private void MuteOutputs()
-        {
-            TriggerOBSHotkey(MuteOutputsHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { StartFreezeFrameHotkey, MuteOutputsHotkey });
         }
 
         private void DeactivateTBC()
         {
-            Console.WriteLine("DeactivateTBC");
-
-            TriggerOBSHotkey(UnmuteOutputsHotkey);
-            TriggerOBSHotkey(EndFreezeFrameHotkey);
-            TriggerOBSHotkey(HideTBCHotkey);
-
-            
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { UnmuteOutputsHotkey, EndFreezeFrameHotkey, HideTBCHotkey });           
         }
 
         private void StartTBCLastUserCountdown()
@@ -918,7 +921,6 @@ namespace CabbageChaosBot
 
         private void StartTBCCountdown()
         {
-            
             Task.Delay(TimeSpan.FromMinutes(1.0)).ContinueWith(t => DeductTBCCountdownMinute());
         }
 
@@ -976,28 +978,27 @@ namespace CabbageChaosBot
         public void InitiateEndingSequence()
         {
             Console.WriteLine("Is this even making it here?");
-            TriggerOBSHotkey(SwitchToCloseUpSceneHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { SwitchToCloseUpSceneHotkey });
             client.SendMessage(TwitchSecrets.ChannelName, "!oceanman");
         }
 
         private void InitiateSitcomCredits()
         {
             originalActiveWindow = GetForegroundWindow();
-            TriggerOBSHotkey(ToggleSitcomHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { ToggleSitcomHotkey });
 
-            Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith(t => DeactivateSitcomCredits());
             Task.Delay(TimeSpan.FromSeconds(1.5)).ContinueWith(t => ActivateSitcomFreezeFrame());
+            Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith(t => DeactivateSitcomCredits());
         }
 
         private void ActivateSitcomFreezeFrame()
         {
-            TriggerOBSHotkey(StartSitcomFreezeFrameHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { StartSitcomFreezeFrameHotkey });
         }
 
         private void DeactivateSitcomCredits()
         {
-            TriggerOBSHotkey(EndSitcomFreezeFrameHotkey);
-            TriggerOBSHotkey(ToggleSitcomHotkey);
+            TriggerHotkeys(OBSWindowTitle, OBSControl, new List<string> { EndSitcomFreezeFrameHotkey, ToggleSitcomHotkey });
         }
 
         public bool ToggleKillSwitch()

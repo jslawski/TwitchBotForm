@@ -45,3 +45,9 @@ C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotF
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\Debug\TwitchBotForm.exe
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\Debug\TwitchBotForm.pdb
 C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\Debug\TwitchBotForm.TwitchSecrets.resources
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\Debug\AutoItX3.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\Debug\AutoItX3_x64.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\Debug\AutoItX3.Assembly.dll
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\bin\Debug\AutoItX3.Assembly.xml
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\Debug\TwitchBotForm.csproj.ResolveComReference.cache
+C:\Users\jslawski\Documents\Visual Studio 2017\Projects\TwitchBotForm\TwitchBotForm\obj\Debug\TwitchBotForm.Form1.resources
